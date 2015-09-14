@@ -1,58 +1,77 @@
-(function () {
-	/* (화면의 크기에 따른) 배경이미지의 크기를 조절하는 함수 */
-	function changeSizeOfBg() {
-		if (1280 > document.documentElement.clientWidth) {
-			document.querySelector(".bg_box").style.height = "100%";
-		}
-		else {
-			document.querySelector(".bg_box").style.height = "";
-		}
+(function(){
+	var current = 0;
+	var max = 0;
+	var container;
+	var interval;
+	var width = window.innerWidth;
+
+
+	document.addEventListener("DOMContentLoaded", init);
+	window.addEventListener('resize', container_size);
+
+	function init(){
+		container = document.querySelector(".slide ul");
+		max = container.children.length;
+
+		// interval = setInterval(next, 3000);
+
+// var sheet = document.createElement('style')
+// 	sheet.innerHTML = 
+// 	".slide ul.move_right{
+// 		transform: translate( "+width+"px,0);
+// 		-webkit-transform: translate( "+width+"px,0);
+// 	}";
+// 	document.body.appendChild(sheet);
+	
+
+		container_size();
+		events();
 	}
 
-	/* 처음 화면을 load할 때, 배경이미지 크기 조절 */
-	document.addEventListener("DOMContentLoaded", changeSizeOfBg);
-
-	/* 화면을 resize할 때, 배경이미지 크기 조절 */
-	window.addEventListener("resize", changeSizeOfBg);
-
-
-	/* 배경이미지 슬라이드쇼 효과 */
-	var bgImages = [];
-	var numImages = 3; // 이미지 개수
-	for (var i = 0; i < numImages; i++) {
-		bgImages[i] = new Image();
-		bgImages[i].src = "img/bg" + (i + 1) + ".jpg";
+	function events(){
+		document.querySelector(".prev_btn").addEventListener("click", prev);
+		document.querySelector(".next_btn").addEventListener("click", next);
 	}
 
-	var step = 0;
+	function prev(e){
+		current--;
+		if(current < 0) current = max-1;
+	
+		container.classList.add('move_right');
+	 // container.style.transform = 'translate(' + xPosition + 'px, ' + yPosition + 'px)';
 
-	var elImg = document.querySelector('.bg_img');
-
-	function slideBg() {
-		if (!document.images) { return; }
-		document.querySelector(".bg_box").style.backgroundColor = "#fff";
-
-		/* opacity 효과 */
-		elImg.style.opacity = 0.3;
-		var nTime = setInterval(function () {
-			var _nPre = parseFloat(elImg.style.opacity);
-			elImg.style.opacity = _nPre + 0.009;
-			if (_nPre > 1.0) {
-				clearInterval(nTime);
-			}
-		}, 17);
-		/* //opacity 효과 */
-
-		elImg.src = bgImages[step].src;
-		if (step < 2) {
-			step++;
-		}
-		else {
-			step = 0;
-		}
-		setTimeout(slideBg, 7000);	// 7초 마다 반복
+		animate(current);
 	}
 
-	slideBg();
+	function next(e){
+		current++;
+		if(current>max-1) current = 0;
+		
+		container.classList.add('move_left');
+	
+		animate(current);
+	}
 
+	function animate(cur){
+		// var moveX = current * 1280;
+		console.log(cur);
+
+		// clearInterval(interval);
+		// interval = setInterval(next, 3000);
+	}
+
+	function container_size() {
+		// var width = window.innerWidth;
+		var height = window.innerHeight;
+		var triple_width = width * 3;
+
+		container.style.width = width+"px";
+		document.querySelector(".slide ul").style.width = triple_width+"px";
+		
+		for(var i=0; i<max; i++){
+			document.querySelectorAll(".slide ul li img")[i].style.width = width+"px";
+			document.querySelectorAll(".slide ul li img")[i].style.height = height+"px";
+		}
+	}
+	
 })();

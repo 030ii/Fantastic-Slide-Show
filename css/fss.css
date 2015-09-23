@@ -13,37 +13,41 @@ li {
 }
 
 .slide {
-	overflow: hidden;
-	/*overflow-x:scroll;
-	overflow-y:hidden;*/
-	/*width: 1280px;*/
+	/*overflow: hidden;*/
+	/*overflow-x:scroll;*/
+	/*overflow-y:hidden;*/
 }
 
-.slide ul {
-	/*width: 3840px; */
-	font-size: 0; /* 이미지 사이의 여백을 없애주기 위해 사용 */
+.slide figure {
+    position: relative;
+    width: 500%;
+    margin: 0;
+    left: 0;
+    text-align: left;
+    font-size: 0;
+    transition: 1s ease-in-out;
 }
 
-/* prev 애니메이션 */
-.slide ul.move_right{
-	transform: translate( 1024px,0);
-	-webkit-transform: translate( 1024px,0);
+.auto {
+    animation: 30s slidy infinite; /*30초 마다 한바퀴씩 도는 것을 무한반복*/
 }
 
-/* next 애니메이션 */
-.slide ul.move_left{
-	transform: translate( 0, 1024px);
-	-webkit-transform: translate( 0, 1024px);
+/* 오른쪽 방향으로 slideshow auto실행 */
+@keyframes slidy {
+    0% { left: 0%; }
+    20% { left: 0%; }
+    25% { left: -100%; }
+    45% { left: -100%; }
+    50% { left: -200%; }
+    70% { left: -200%; }
+    75% { left: -300%; }
+    95% { left: -300%; }
+    100% { left: -400%; }
 }
 
-.slide ul li {
-	display: inline-block;
-}
-
-.slide ul li img {
-	/*width: 1280px;
-	height: 800px;*/
-	background-size: cover;
+.slide figure img {
+    width: 20%; 
+    float: left;
 }
 
 .content {
@@ -127,14 +131,4 @@ li {
     left: 3px;
     border-radius: 50%;
     background: rgba(255,255,255,0.8);
-}
-
-/* opacity 애니메이션 */
-@-webkit-keyframes fadeIn {
-  from {	
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }

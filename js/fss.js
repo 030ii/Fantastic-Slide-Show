@@ -5,26 +5,57 @@
 	var interval;
 	var width = window.innerWidth;
 
+	// var styleEl = document.createElement('style');
+	// var styleSheet;
+
+	// document.head.appendChild(styleEl);
+	// styleSheet = styleEl.sheet;
+
+	// styleSheet.insertRule("
+	// 	@keyframes slidy {
+ //    		0% { left: 0%; }
+ //    		20% { left: 0%; }
+ //    		25% { left: -100%; }
+ //    		45% { left: -100%; }
+ //    		50% { left: -200%; }
+ //    		70% { left: -200%; }
+ //    		75% { left: -300%; }
+ //    		95% { left: -300%; }
+ //    		100% { left: -400%; }
+	// 	}");	
+
+// var sheet = (function() {
+// 	var style = document.createElement("style");
+// 	style.appendChild(document.createTextNode(""));
+// 	document.head.appendChild(style);
+// 	return style.sheet;
+// })();
+
+// sheet.insertRule("
+// 		@keyframes slidy {
+//     		0% { left: 0%; }
+//     		20% { left: 0%; }
+//     		25% { left: -100%; }
+//     		45% { left: -100%; }
+//     		50% { left: -200%; }
+//     		70% { left: -200%; }
+//     		75% { left: -300%; }
+//     		95% { left: -300%; }
+//     		100% { left: -400%; }
+// 		}", 1);
+
+
 
 	document.addEventListener("DOMContentLoaded", init);
-	window.addEventListener('resize', container_size);
 
 	function init(){
-		container = document.querySelector(".slide ul");
+		container = document.querySelector("figure");
 		max = container.children.length;
 
-		// interval = setInterval(next, 3000);
+		console.log("init");
 
-// var sheet = document.createElement('style')
-// 	sheet.innerHTML = 
-// 	".slide ul.move_right{
-// 		transform: translate( "+width+"px,0);
-// 		-webkit-transform: translate( "+width+"px,0);
-// 	}";
-// 	document.body.appendChild(sheet);
-	
-
-		container_size();
+		interval = setInterval(function(){ container.classList.add('auto'); }, 3000);
+		
 		events();
 	}
 
@@ -35,43 +66,30 @@
 
 	function prev(e){
 		current--;
-		if(current < 0) current = max-1;
-	
-		container.classList.add('move_right');
-	 // container.style.transform = 'translate(' + xPosition + 'px, ' + yPosition + 'px)';
+		if(current < 0) current = max-2; // 마지막 사진이 첫사진과 같으니까 -1이 아니라 -2로 한다. 
+
+//		container.style.transform = "translate("+width*current+"px , 0)";
 
 		animate(current);
 	}
 
 	function next(e){
 		current++;
-		if(current>max-1) current = 0;
+		if(current>max-2) current = 0;
+
+		container.style.transform = "translate(-"+width*current+"px , 0)";
 		
-		container.classList.add('move_left');
-	
 		animate(current);
 	}
 
 	function animate(cur){
-		// var moveX = current * 1280;
+		var moveX = current * width;
+
 		console.log(cur);
 
-		// clearInterval(interval);
-		// interval = setInterval(next, 3000);
-	}
+		clearInterval(interval);
+		interval = setInterval(function(){ container.classList.add('auto'); }, 3000);
 
-	function container_size() {
-		// var width = window.innerWidth;
-		var height = window.innerHeight;
-		var triple_width = width * 3;
-
-		container.style.width = width+"px";
-		document.querySelector(".slide ul").style.width = triple_width+"px";
-		
-		for(var i=0; i<max; i++){
-			document.querySelectorAll(".slide ul li img")[i].style.width = width+"px";
-			document.querySelectorAll(".slide ul li img")[i].style.height = height+"px";
-		}
 	}
 	
 })();

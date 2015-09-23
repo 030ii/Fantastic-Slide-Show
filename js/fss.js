@@ -2,6 +2,7 @@
 	var current = 0;
 	var max = 0;
 	var container;
+	var dots;
 	var interval;
 	var width = window.innerWidth;
 
@@ -10,6 +11,7 @@
 
 	function init(){
 		container = document.querySelector("figure");
+		dots = document.querySelector(".nav_dots");
 		max = container.children.length;
 
 		console.log("init");
@@ -38,15 +40,16 @@
 		moving(current);
 	}
 
-	function moving(cur){
-		var moveX = current * width;
+	function moving(cur){		
+		var prevDots = document.querySelector(".dot_current");
 
-		console.log(cur);
-		
+		prevDots.className = "";
+		dots.children[cur].classList.add('dot_current');
+
 		container.style.transform = "translate(-"+width*current+"px , 0)";
 
 		clearInterval(interval);
 		interval = setInterval(function(){ container.classList.add('auto'); }, 3000);
 	}
-	
+
 })();
